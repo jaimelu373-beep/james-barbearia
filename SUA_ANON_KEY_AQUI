@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>James Barbearia</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body style="font-family: Arial; background:#111; color:white; padding:20px">
+
+<h1>James Barbearia</h1>
+
+<h2>Agendamento</h2>
+
+<input id="nome" placeholder="Seu nome"><br><br>
+<input id="telefone" placeholder="Telefone"><br><br>
+
+<select id="servico">
+  <option>Corte com Equipe</option>
+  <option>Corte + Sobrancelha</option>
+  <option>Barba</option>
+</select><br><br>
+
+<input type="time" id="hora"><br><br>
+
+<button onclick="agendar()">Agendar</button>
+
+<script>
+const supabase = supabase.createClient(
+  "https://xnkahntohmooxdswpdqe.supabase.co",
+  "SUA_ANON_KEY_AQUI"
+);
+
+async function agendar() {
+  const nome = document.getElementById("nome").value;
+  const telefone = document.getElementById("telefone").value;
+  const servico = document.getElementById("servico").value;
+  const hora = document.getElementById("hora").value;
+
+  await supabase.from("agendamentos").insert([
+    { cliente: nome, telefone: telefone, servico: servico, horario: hora }
+  ]);
+
+  const msg = `Olá, sou ${nome} e quero agendar ${servico} às ${hora}`;
+  window.open(`https://wa.me/5516996265959?text=${encodeURIComponent(msg)}`);
+}
+</script>
+
+</body>
+</html>
